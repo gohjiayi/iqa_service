@@ -1,6 +1,9 @@
 cd /
 export PYTHONPATH=$PYTHONPATH:$PWD
-uvicorn app.main:app --host 0.0.0.0 --port 8000 
+export PORT=8000
+echo TRYING TO RUN ON $PORT
+uvicorn app.main:app --host 0.0.0.0 --port $PORT
+# 8000 
 
 # Without Docker,
 # uvicorn app.main:app --host 127.0.0.1 --port 8000 

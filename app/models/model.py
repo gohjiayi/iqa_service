@@ -64,9 +64,12 @@ class IQAModel(object):
         return crop_imgs
 
     def _post_process(self, prediction):
-        # return self.scaler.transform(np.array(prediction).reshape(-1,1))
-        percentile = stats.percentileofscore(self.scaler, prediction)
-        return percentile
+        # return self.scaler.inverse_transform(np.array(prediction).reshape(-1,1))
+        mean = np.mean(self.scaler)
+        std = np.std(self.scaler)
+        # percentile = stats.percentileofscore(self.scaler, prediction)
+        score = (prediction-mean)/std
+        return score
     
     def predict(self, file_name):#: UploadFile):
         crop_imgs = self._pre_process(file_name)
