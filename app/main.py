@@ -38,32 +38,37 @@ In this case, the decorator tells FastAPI that the function below corresponds to
 There are several parameters that you can pass to your path operation decorator to configure it. 
 Notice that these parameters are passed directly to the path operation decorator, not to your path operation function.
 '''
-'''
-@app.post("/submitform")#, response_class=IQAResult)
-async def handle_form(image: UploadFile = Form(...)):
-    print("IN HANDLE FORM")
-    print("image", image)
-    file_name = os.path.join(os.getcwd()+"images"+image.filename.replace(" ", "-"))
-    with open(file_name,'wb+') as f:
-        uploaded = image.file.read()
-        # print("uploaded", type(uploaded), uploaded[:50]) # uploaded <class 'bytes'> b'\x89PNG\r\n\x1
-        f.write(uploaded)
+
+# @app.post("/submitform")#, response_class=IQAResult)
+# async def handle_form(image: UploadFile = Form(...)):
+#     print("IN HANDLE FORM")
+#     print("image", image)
+#     file_name = os.path.join(os.getcwd()+"images"+image.filename.replace(" ", "-"))
+#     with open(file_name,'wb+') as f:
+#         uploaded = image.file.read()
+#         # print("uploaded", type(uploaded), uploaded[:50]) # uploaded <class 'bytes'> b'\x89PNG\r\n\x1
+#         f.write(uploaded)
     
-    model: IQAModel = app.state.model
-    prediction = model.predict(file_name)
-    return {"prediction":prediction}
-'''
+#     model: IQAModel = app.state.model
+#     prediction = model.predict(file_name)
+#     return {"prediction":prediction}
+
 @app.post("/submitform")#, response_class=IQAResult)
-async def handle_form(request:Request, image: UploadFile = File(...)):
-    print("IN HANDLE FORM")
-    print("image", image)
-    contents = await image.read()
-    filename= image.filename
+async def handle_form(request:Request):#, image: UploadFile = File(...)):
+    print("IN HANDLE FORM OF main.py")
+    form = await request.form()
+    upload_file = form["image"]  # starlette.datastructures.UploadFile - not used here, but just for illustrative purposes
+    filename = upload_file.filename  # str
+    print("filename", filename)
+    contents = await upload_file.read()  # bytes
+    print("contents", contents[:50])
+    content_type = upload_file.content_type  # str
+    print("content_type", content_type)
    
     model: IQAModel = app.state.model
     prediction = model.predict(contents)
-    return {"prediction":prediction}
-
+    # return {"prediction":prediction}
+    return templates.TemplateResponse("home.html", {"request": request, "result":prediction})
     # TODO SHOW the uploaded img and examples of each quality for video --> fyp summarization during presentation 
     # return {"filename": file_name}
 

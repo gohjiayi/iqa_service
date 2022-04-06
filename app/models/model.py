@@ -33,10 +33,10 @@ class IQAModel(object):
             self.scaler = pickle.load(f)
     
     def _pre_process(self, file_name):#: UploadFile):
-        logging.debug(f"Pre-processing payload... {file_name}")
-        with open(file_name, "rb") as f:
-            payload = f.read()
-    
+        # logging.debug(f"Pre-processing payload... {file_name}")
+        # with open(file_name, "rb") as f:
+        #     payload = f.read()
+        payload = file_name
         img = np.array(Image.open(io.BytesIO(payload)))
         print("TYPE ", type(payload), type(img), img.shape)
  

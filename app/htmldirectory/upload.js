@@ -124,9 +124,12 @@ function ekUpload() {
 				);
 				xhr.setRequestHeader("X-File-Name", file.name);
 				xhr.setRequestHeader("X-File-Size", file.size);
-				xhr.setRequestHeader("Content-Type", "multipart/form-data");
-				
-				console.log("formData", typeof(formData.getAll("image")), formData.getAll("image"))
+				// xhr.setRequestHeader("Content-Type", "multipart/form-data");
+				// https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+				// https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+				for(pair of formData.entries()){
+					console.log(pair[0], pair[1])
+				}
 				console.log("XHR", xhr)
 				
 				xhr.send(formData)
