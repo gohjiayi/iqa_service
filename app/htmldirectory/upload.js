@@ -114,8 +114,9 @@ function ekUpload() {
 				};
 
 				// Start upload
+				// retrieve form data from html form using FormData https://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects#retrieving_a_formdata_object_from_an_html_form
 				var formData = new FormData(document.getElementById("file-upload-form")); // https://stackoverflow.com/questions/9395911/send-a-file-as-multipart-through-xmlhttprequest
-				formData.append("image", file)
+				// formData.append("image", file) # oops this is for additional field; i think the image is auto filled up already
 				xhr.open(
 					"post",
 					document.getElementById("file-upload-form").action,
@@ -125,7 +126,7 @@ function ekUpload() {
 				xhr.setRequestHeader("X-File-Size", file.size);
 				xhr.setRequestHeader("Content-Type", "multipart/form-data");
 				
-				console.log("XHR", xhr)
+				console.log("formData", formData.getAll("image"))
 				xhr.send(formData)
 				// xhr.send(file);
 			} else {
