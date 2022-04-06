@@ -1,12 +1,15 @@
 # uvicorn main:app
-
+from email.mime import multipart
+from pathlib import Path
 from fastapi import FastAPI, Request, Form, UploadFile
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from app.models.model import IQAModel
 from app.models.result import IQAResult
 from app.services.event_handlers import start_app_handler, stop_app_handler
 import os
+os.system("pip install -U python-multipart")
 
 APP_NAME = "Image Quality Assessment using DeepBIQ"
 def get_app() -> FastAPI:
@@ -16,6 +19,13 @@ def get_app() -> FastAPI:
     return fast_app
 
 app = get_app()
+
+app.mount(
+    "/app/htmldirectory",
+    StaticFiles(directory="app/htmldirectory"),
+    name="static",
+)
+
 templates = Jinja2Templates(directory="app/htmldirectory")
 
 @app.get("/", response_class=HTMLResponse)

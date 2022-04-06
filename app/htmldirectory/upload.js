@@ -115,7 +115,6 @@ function ekUpload() {
 
 				// Start upload
 				var formData = new FormData(document.getElementById("file-upload-form")); // https://stackoverflow.com/questions/9395911/send-a-file-as-multipart-through-xmlhttprequest
-				// formData.append("image", document.getElementById("file-upload").files[0])
 				formData.append("image", file)
 				xhr.open(
 					"post",
@@ -127,9 +126,8 @@ function ekUpload() {
 				xhr.setRequestHeader("Content-Type", "multipart/form-data");
 				
 				console.log("XHR", xhr)
-
-				// xhr.send(file);
 				xhr.send(formData)
+				// xhr.send(file);
 			} else {
 				output("Please upload a smaller file (< " + fileSizeLimit + " MB).");
 			}
