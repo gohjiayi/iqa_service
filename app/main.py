@@ -1,7 +1,7 @@
 # uvicorn main:app
 from email.mime import multipart
 from pathlib import Path
-from fastapi import FastAPI, Request, Form, UploadFile
+from fastapi import FastAPI, Request, Form, UploadFile, File
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -38,6 +38,7 @@ In this case, the decorator tells FastAPI that the function below corresponds to
 There are several parameters that you can pass to your path operation decorator to configure it. 
 Notice that these parameters are passed directly to the path operation decorator, not to your path operation function.
 '''
+'''
 @app.post("/submitform")#, response_class=IQAResult)
 async def handle_form(image: UploadFile = Form(...)):
     print("IN HANDLE FORM")
@@ -51,6 +52,18 @@ async def handle_form(image: UploadFile = Form(...)):
     model: IQAModel = app.state.model
     prediction = model.predict(file_name)
     return {"prediction":prediction}
+'''
+@app.post("/submitform")#, response_class=IQAResult)
+async def handle_form(request:Request, image: UploadFile = File(...)):
+    print("IN HANDLE FORM")
+    print("image", image)
+    contents = await image.read()
+    filename= image.filename
+   
+    model: IQAModel = app.state.model
+    prediction = model.predict(contents)
+    return {"prediction":prediction}
+
     # TODO SHOW the uploaded img and examples of each quality for video --> fyp summarization during presentation 
     # return {"filename": file_name}
 

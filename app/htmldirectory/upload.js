@@ -126,7 +126,9 @@ function ekUpload() {
 				xhr.setRequestHeader("X-File-Size", file.size);
 				xhr.setRequestHeader("Content-Type", "multipart/form-data");
 				
-				console.log("formData", formData.getAll("image"))
+				console.log("formData", typeof(formData.getAll("image")), formData.getAll("image"))
+				console.log("XHR", xhr)
+				
 				xhr.send(formData)
 				// xhr.send(file);
 			} else {
@@ -143,3 +145,26 @@ function ekUpload() {
 	}
 }
 ekUpload();
+
+
+
+// function convertObjectToBinary(obj) {
+// 	let out = '',
+// 		input = JSON.stringify(obj) // convert the json to string.
+// 	// loop over the string and convert each charater to binary string.
+// 	for (i = 0; i < input.length; i++) {
+// 		out += input[i].charCodeAt(0).toString(2) + " ";
+// 	}
+// 	return out.trimEnd();
+// }
+// console.log("binary_str", convertObjectToBinary(file))
+// console.log("another string", file.toString())
+// let reader = new FileReader();
+// reader.onload = function() {
+// 	console.log(reader.result);
+//   };
+
+//   reader.onerror = function() {
+// 	console.log(reader.error);
+//   };
+// reader.readAsText(file);
