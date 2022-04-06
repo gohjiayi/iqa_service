@@ -64,12 +64,10 @@ class IQAModel(object):
         return crop_imgs
 
     def _post_process(self, prediction):
-        # return self.scaler.inverse_transform(np.array(prediction).reshape(-1,1))
-        mean = np.mean(self.scaler)
-        std = np.std(self.scaler)
-        # percentile = stats.percentileofscore(self.scaler, prediction)
-        score = (prediction-mean)/std
-        return score
+        
+        percentile = stats.percentileofscore(self.scaler, prediction)
+        return percentile
+        # TODO how to transform from normal distribution to the range [0,100]?
     
     def predict(self, file_name):#: UploadFile):
         crop_imgs = self._pre_process(file_name)
@@ -77,11 +75,11 @@ class IQAModel(object):
         crop_out = np.average(crop_out, axis=0) # average of 25 patches (1, 4096)
         crop_out = crop_out.reshape(-1, 4096)
         logging.info(f"X shape: {crop_out.shape}")
-        prediction = self.svr.predict(crop_out) # (25,)
-        print('test score:', np.mean(prediction))
-        prediction = self._post_process(prediction)
-        print(prediction) # [[-1.40337523]]
-        return prediction #.item()
+        prediction = self.svr.predict(crop_out) 
+        print('test score:', prediction)
+        prediction = self._post_process(prediction.item())
+        print(prediction)
+        return prediction
     
     
 def get_imagenet_normalize():

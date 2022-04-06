@@ -1,23 +1,21 @@
-# docker run -it \
-# -v /Users/phoebezhouhuixin/FastAPIServerWalkthrough/images:/images \
-# phoebezhouhuixin/deepbiq_deploy 
-
-# if files were not copied during the dockerfile, use bind mount instead
-docker run -it \
--v /Users/phoebezhouhuixin/FastAPIServerWalkthrough/deepbiq_deploy:/deepbiq_deploy \
--v /Users/phoebezhouhuixin/FastAPIServerWalkthrough/images:/images \
--v /Users/phoebezhouhuixin/FastAPIServerWalkthrough/app:/app \
--v /Users/phoebezhouhuixin/FastAPIServerWalkthrough/app/run.sh:/run.sh \
-phoebezhouhuixin/deepbiq_deploy 
 #/bin/bash
 
+
 # if files were copied during the dockerfile, and running using docker instead of heroku image, 
+# docker run -it \
+# -v /Users/phoebezhouhuixin/FastAPIServerWalkthrough/images:/images \
+# -p 8000:8000 \
+# registry.heroku.com/iqa-service/web:latest
+# then go to http://0.0.0.0:8000/
+
+# or if files were not copied during the dockerfile, use bind mount instead
 docker run -it \
 -v /Users/phoebezhouhuixin/FastAPIServerWalkthrough/images:/images \
--e PORT=8008 \
--p 8008:8008 \
--d registry.heroku.com/iqa-service/web:latest
-# then go to http://0.0.0.0:8000/
+-v /Users/phoebezhouhuixin/FastAPIServerWalkthrough/app:/app \
+-p 8000:8000 \
+phoebezhouhuixin/deepbiq_deploy
+
+
 
 
 # By default, each container run by Docker has its own network namespace, with its own IPs:
