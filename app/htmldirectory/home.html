@@ -4,14 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Predict image quality</title>
-    <!-- <link href="style.css" type="text/css" rel="stylesheet"> -->
     <link href="{{ url_for('static', path='style.css') }}" rel="stylesheet">
 </head>
 <body>
 <h1>Image Quality Assessment with DeepBIQ</h1>
 
-<form id="file-upload-form" class="uploader" action="/submitform" method="post" enctype="multipart/form-data">
-    <!-- <input type="file" name="image" accept="image/png, image/jpeg, image/jpg"> -->
+<form id="file-upload-form" class="uploader" method="post" enctype="multipart/form-data">
+    <!--  action="/submitform" -->
     <input id="file-upload" type="file" name="image" accept="image/*" />
         <label for="file-upload" id="file-drag">
             <img id="file-image" src="#" alt="Preview" class="hidden">
@@ -23,14 +22,16 @@
             </div>
             <div id="response" class="hidden">
                 <div id="messages"></div>
-                <progress class="progress" id="file-progress" value="0">
+                <!-- <progress class="progress" id="file-progress" value="0">
                     <span>0</span>%
-                </progress>
+                </progress> -->
+                <p>Click on submit!</p>
             </div>
         </label>
-    <!-- <input type="submit"> -->
+    <input type="submit">
 </form>
-<p>Result: {{ result }}</p>
+<br>
+<h2>Result: {{ result }}</h2>
 
 </body>
 <script type="text/javascript" src="{{ url_for('static', path='upload.js') }}"></script>
