@@ -1,19 +1,9 @@
-#/bin/bash
-
-
-# if files were copied during the dockerfile, and running using docker instead of heroku image, 
-# docker run -it \
-# -v /Users/phoebezhouhuixin/FastAPIServerWalkthrough/images:/images \
-# -p 8000:8000 \
-# registry.heroku.com/iqa-service/web:latest
-# then go to http://0.0.0.0:8000/
-
-# or if files were not copied during the dockerfile, use bind mount instead
+# volume map to source code (ie. /app)
 docker run -it \
--v /Users/phoebezhouhuixin/FastAPIServerWalkthrough/images:/images \
 -v /Users/phoebezhouhuixin/FastAPIServerWalkthrough/app:/app \
 -p 8000:8000 \
 phoebezhouhuixin/deepbiq_deploy
+# then go to http://0.0.0.0:8000/
 
 
 
@@ -35,22 +25,3 @@ phoebezhouhuixin/deepbiq_deploy
 # If just 8000:8000, then it means 0.0.0.0:8000:8000 -
 # You need to bind a server to 0.0.0.0 so that traffic coming from outside the container is also accepted. If you don't,
 # the server will not be reachable from outside the container. 
-
-
-
-
-
-# Run training/evaluation of CNN
-# nvidia-smi -l 10
-# sudo sh ./deepbiq.sh
-# pip install opencv-contrib-python-headless
-# cd ..
-# python deepbiq/main.py
-
-# Clean up
-# docker system prune -a --volumes
-
-# Stop and remove all the containers that are running the image
-# docker rm $(docker stop $(docker ps -a -q --filter ancestor=phoebezhouhuixin/deepbiq --format="{{.ID}}"))  
-
-

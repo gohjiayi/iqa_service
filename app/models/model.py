@@ -32,13 +32,9 @@ class IQAModel(object):
         with open(self.scaler_path, "rb") as f:
             self.scaler = pickle.load(f)
     
-    def _pre_process(self, file_name):#: UploadFile):
-        # logging.debug(f"Pre-processing payload... {file_name}")
-        # with open(file_name, "rb") as f:
-        #     payload = f.read()
-        payload = file_name
-        img = np.array(Image.open(io.BytesIO(payload)))
-        print("TYPE ", type(payload), type(img), img.shape)
+    def _pre_process(self, contents):#: UploadFile):
+        img = np.array(Image.open(io.BytesIO(contents)))
+        print("TYPE ", type(contents), type(img), img.shape)
  
         normalize = get_imagenet_normalize()
         img_transform = transforms.Compose([transforms.ToTensor(), normalize])
@@ -69,8 +65,8 @@ class IQAModel(object):
         return percentile
         # TODO how to transform from normal distribution to the range [0,100]?
     
-    def predict(self, file_name):#: UploadFile):
-        crop_imgs = self._pre_process(file_name)
+    def predict(self, contents):#: UploadFile):
+        crop_imgs = self._pre_process(contents)
         crop_out = self.cnn.extract_feature(crop_imgs) # (25, 4096)
         crop_out = np.average(crop_out, axis=0) # average of 25 patches (1, 4096)
         crop_out = crop_out.reshape(-1, 4096)
