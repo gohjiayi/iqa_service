@@ -11,7 +11,7 @@ from app.services.event_handlers import start_app_handler, stop_app_handler
 import os
 os.system("pip install -U python-multipart")
 
-APP_NAME = "Image Quality Assessment using DeepBIQ"
+APP_NAME = "Image Quality Assessment"
 def get_app() -> FastAPI:
     fast_app = FastAPI(title=APP_NAME, debug=True)
     fast_app.add_event_handler("startup", start_app_handler(fast_app))
@@ -57,6 +57,21 @@ async def handle_form(request:Request):#, image: UploadFile = File(...)):
     model: IQAModel = app.state.model
     prediction = model.predict(contents)
     return templates.TemplateResponse("home.html", {"request": request, "result":prediction})
+
+
+@app.post("/predict")
+async def predict_score(
+        # model: str = Form(None),
+        image: UploadFile = File(...)    
+):
+    model: IQAModel = app.state.model
+    prediction = model.predict(image.file.read())
+
+    return {
+        # "model": model,
+        "image": image.filename,
+        "score": prediction
+    }
 
 '''
 Note: When you access the url on the browser, you should get the following response "{"detail":"Method Not Allowed"}". 

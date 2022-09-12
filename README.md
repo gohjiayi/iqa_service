@@ -16,3 +16,9 @@
 * Run deepbiq.sh with `sudo sh deepbiq.sh`
     * deepbiq.sh specifies a volume map between the source files in the local directory (./app) and the Docker container's directory (/app). Thus, any changes made to main.py locally will be reflected automatically in the Docker container.
 * Go to http://0.0.0.0:8000/ (localhost port 8000)
+
+```
+# Commands to run web app
+docker build -t iqa_service .
+docker run -v /home/jiayi/Documents/GitHub/iqa_service/app:/app -p 8000:8000 iqa_service
+```
